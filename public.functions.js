@@ -22,6 +22,7 @@ function validatePassword(password){
 }
 
 
+
 export default {
   authdata_encrypt,
   validateLogin,
