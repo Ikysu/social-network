@@ -16,7 +16,15 @@ export default {
             }
         },
         
-        "/set/username":async (req, reply)=>{
+        "/set":async (req, reply)=>{
+            let user = await authdata_decrypt(req.headers.cookie);
+            if(user.error){
+                reply.status=400;
+                return user
+            }
+
+            
+            
             //let {id} = req.params
             //let find = await db.User.findOne({
             //    where: {
