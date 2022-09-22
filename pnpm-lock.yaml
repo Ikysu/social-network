@@ -6,6 +6,7 @@ specifiers:
   fastify: ^4.6.0
   mysql2: ^2.3.3
   sequelize: ^6.23.0
+  sequelize-noupdate-attributes: ^1.0.0
 
 dependencies:
   '@fastify/cors': 8.1.0
@@ -13,6 +14,7 @@ dependencies:
   fastify: 4.6.0
   mysql2: 2.3.3
   sequelize: 6.23.0_mysql2@2.3.3
+  sequelize-noupdate-attributes: 1.0.0
 
 packages:
 
@@ -640,6 +642,10 @@ packages:
 
   /seq-queue/0.0.5:
     resolution: {integrity: sha512-hr3Wtp/GZIc/6DAGPDcV4/9WoZhjrkXsi5B/07QgX8tsdc6ilr7BFM6PM6rbdAX1kFSDYeZGLipIZZKyQP0O5Q==}
+    dev: false
+
+  /sequelize-noupdate-attributes/1.0.0:
+    resolution: {integrity: sha512-nBmSvzQuhi318QZ7M4gY3qBGpV1hbYepox99GDpm8M2kBgyfMaaNcMg2B9T62yg5Yct8BKW+WDOpx0Je9+LKFg==}
     dev: false
 
   /sequelize-pool/7.1.0:

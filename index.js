@@ -6,6 +6,8 @@ import { Sequelize } from "sequelize";
 import connectorRouters from "./routers/connector.js";
 import connectorModels from "./models/connector.js";
 
+import noUpdate from 'sequelize-noupdate-attributes';
+
 global.settings = JSON.parse(fs.readFileSync("settings.json"));
 
 console._log=console.log
@@ -35,6 +37,7 @@ Object.keys(publicFunctions).forEach(key=>{
         dbConf.logging=false
     }
     global._db = new Sequelize(`mysql://${settings.sequelize.user}:${settings.sequelize.pass}@${settings.sequelize.host}:${settings.sequelize.port}/${settings.sequelize.name}`, dbConf)
+    noUpdate(global._db)
 
     // Авторизуемся в базу
     try {

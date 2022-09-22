@@ -4,7 +4,8 @@ export default {
         type: UUID,
         defaultValue: UUIDV4,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+        noUpdate: true
     },
     username: {
         type: DataTypes.STRING

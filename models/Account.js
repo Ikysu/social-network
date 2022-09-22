@@ -4,12 +4,14 @@ export default {
         type: DataTypes.STRING,
         unique: true,
         primaryKey: true,
+        noUpdate: true
     },
     password: {
         type: DataTypes.STRING
     },
     profile_id: {
         type: UUID,
-        allowNull: false
+        allowNull: false,
+        noUpdate: true
     }
 }
