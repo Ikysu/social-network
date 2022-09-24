@@ -1,21 +1,29 @@
+
+var avalibleEditParams = ["username", "avatar"];
+
+
 export default {
     get:{
-        "/:id":async (req, reply)=>{
-            let {id} = req.params
+        "/:pid":async (req, reply)=>{
+            let {pid} = req.params
             let find = await db.User.findOne({
                 where: {
-                    id
+                    pid
                 }
             })
             if(find){
-                let {id, username, avatar, friends} = find.dataValues
-                return {id, username, avatar, friends}
+                let {pid, username, avatar, friends} = find.dataValues
+                return {pid, username, avatar, friends}
             }else{
                 reply.status=404;
                 return {error:"Пользователь не найден"}
             }
         },
-        
+        "/set/list":async (req, reply)=>{
+            return avalibleEditParams
+        }
+    },
+    post:{
         "/set":async (req, reply)=>{
             let user = await authdata_decrypt(req.headers.cookie);
             if(user.error){
@@ -23,23 +31,46 @@ export default {
                 return user
             }
 
-            
-            
-            //let {id} = req.params
-            //let find = await db.User.findOne({
-            //    where: {
-            //        id
-            //    }
-            //})
-            //if(find){
-            //    let {id, username, avatar, friends} = find.dataValues
-            //    return {id, username, avatar, friends}
-            //}else{
-            //    reply.status=404;
-            //    return {error:"Пользователь не найден"}
-            //}
+            console.log("WHERE", user)
 
-            return {ok:false}
+            var avalibleEditParams = ["username", "avatar"];
+
+            if(req.body instanceof Object&&!(req.body instanceof Array)){
+                var callUpdate = {}
+                Object.keys(req.body).forEach(key=>{
+                    if(avalibleEditParams.indexOf(key)!=-1){
+                        switch (key) {
+                            case "username":
+                                if(validateUsername(req.body[key])){
+                                    callUpdate.username=req.body[key]
+                                }
+                                break;
+
+                            case "avatar":
+                                //if(validateUsername(req.body[key])){
+                                //    callUpdate.username=req.body[key]
+                                //}
+                                break;
+                        }
+                    }
+                })
+                let usr = await db.User.findOne({where:user})
+                if(usr){
+                    let upd = await usr.update(callUpdate)
+                    if(upd){
+                        return {ok:true}
+                    }else{
+                        reply.status = 500
+                        return {error: "Ошибка при выполнении запроса"}
+                    }
+                }else{
+                    reply.status = 400
+                    return {error:"Пользователь не найден"}
+                }
+            }else{
+                reply.status = 400
+                return {error:`Тело запроса не является объектом`}
+            }
         }
     }
 }

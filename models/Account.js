@@ -9,7 +9,7 @@ export default {
     password: {
         type: DataTypes.STRING
     },
-    profile_id: {
+    pid: {
         type: UUID,
         allowNull: false,
         noUpdate: true

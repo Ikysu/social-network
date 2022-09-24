@@ -24,14 +24,12 @@ export default {
                             },
                             transactionHost
                         );
-
-                        console.log(user.dataValues.id)
                         
                         await db.Account.create(
                             {
                                 login: login,
                                 password: password,
-                                profile_id: user.dataValues.id
+                                pid: user.dataValues.pid
                             },
                             transactionHost
                         );

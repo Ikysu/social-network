@@ -1,6 +1,6 @@
 import { DataTypes, UUID, UUIDV4 } from "sequelize"
 export default {
-    id: {
+    pid: {
         type: UUID,
         defaultValue: UUIDV4,
         allowNull: false,

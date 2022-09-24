@@ -2,6 +2,9 @@ import fs from 'fs';
 import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifyStatic from "@fastify/static";
+import fastifyCookie from "@fastify/cookie";
+import fastifyFormBody from "@fastify/formbody"
+import fastifyMultipart from "@fastify/multipart"
 import { Sequelize } from "sequelize";
 import connectorRouters from "./routers/connector.js";
 import connectorModels from "./models/connector.js";
@@ -55,7 +58,7 @@ Object.keys(publicFunctions).forEach(key=>{
     console.log("DB Models connected")
 
     // Синхронизируем базу (force - сносит все | alter - добавляет или удаляет столбцы) 
-    _db.sync({ force: true });
+    _db.sync({ alter: true });
 
 
 
@@ -68,17 +71,23 @@ Object.keys(publicFunctions).forEach(key=>{
         logger:settings.debug.fastify
     });
 
-    // Корс для всех доменов
     fastify.register(fastifyCors, { 
         methods:["POST", "GET"],
         origin:"*" 
     })
 
-    // Статика для пикч
     fastify.register(fastifyStatic,{
         root:"/var/www/social-network/static",
         prefix: '/static/'
     })
+
+    fastify.register(fastifyCookie, {
+        secret: settings.cookie.sig
+    })
+
+    fastify.register(fastifyFormBody);
+
+    fastify.register(fastifyMultipart);
 
     // Подключаем все роуты для веб сервера из папки routers
     for await (const md of connectorRouters()){
